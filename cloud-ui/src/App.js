@@ -3,27 +3,47 @@ import React, { useState } from "react";
 function App() {
   const [status, setStatus] = useState("");
 
-  const API = "http://13.51.161.235:8080/api";
+  // 👉 IMPORTANT: Your EC2 backend IP
+  const API = "http://51.20.98.145:8080/api";
 
+  // Get system status
   const getStatus = async () => {
-    const res = await fetch(`${API}/status`);
-    const data = await res.text();
-    setStatus(data);
+    try {
+      const res = await fetch(`${API}/status`);
+      const data = await res.text();
+      setStatus(data);
+    } catch (error) {
+      console.error("Error fetching status:", error);
+      setStatus("Error connecting to backend");
+    }
   };
 
+  // Simulate failure
   const fail = async () => {
-    await fetch(`${API}/simulate-failure`);
-    getStatus();
+    try {
+      await fetch(`${API}/simulate-failure`);
+      getStatus();
+    } catch (error) {
+      console.error("Error simulating failure:", error);
+      setStatus("Error connecting to backend");
+    }
   };
 
+  // Auto heal
   const heal = async () => {
-    await fetch(`${API}/auto-heal`);
-    getStatus();
+    try {
+      await fetch(`${API}/auto-heal`);
+      getStatus();
+    } catch (error) {
+      console.error("Error healing system:", error);
+      setStatus("Error connecting to backend");
+    }
   };
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
       <h1>☁️ Cloud Brain Dashboard</h1>
+
       <h2>Status: {status}</h2>
 
       <button onClick={getStatus}>Check Status</button>

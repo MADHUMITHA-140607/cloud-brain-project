@@ -2,7 +2,7 @@ package com.example.demo;
 
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*")   
+@CrossOrigin(origins = "*")   // VERY IMPORTANT
 @RestController
 @RequestMapping("/api")
 public class CloudController {
@@ -22,7 +22,7 @@ public class CloudController {
 
     @GetMapping("/auto-heal")
     public String autoHeal() {
-        if(status.equals("FAILED")) {
+        if (status.equals("FAILED")) {
             status = "HEALTHY";
             return "System healed!";
         }
